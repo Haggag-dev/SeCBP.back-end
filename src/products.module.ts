@@ -1,10 +1,29 @@
 import { Module } from '@nestjs/common';
 import { ProductsController } from './products.controller';
 import { ProductsService } from './products.service';
-import { TryModule } from './try/try.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
-  imports: [TryModule],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env.local',
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.getOrThrow<string>('PG_HOST'),
+        port: Number(configService.getOrThrow<string>('PG_PORT')),
+        username: configService.getOrThrow<string>('PG_USERNAME'),
+        password: configService.getOrThrow<string>('PG_PASSWORD'),
+        database: configService.getOrThrow<string>('PG_NAME'),
+        autoLoadEntities: true,
+        synchronize: configService.getOrThrow('PG_SYNCHRONIZE'),
+      }),
+      inject: [ConfigService],
+    }),
+  ],
   controllers: [ProductsController],
   providers: [ProductsService],
 })

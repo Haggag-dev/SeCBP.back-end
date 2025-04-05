@@ -1,13 +1,19 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
+import { UpdateStockDto } from './dto/update-stock.dto';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private readonly productsRepository: Repository<Product>,
+    private readonly entityManager: EntityManager,
   ) {}
 
   async findAll(): Promise<Product[]> {
@@ -28,7 +34,17 @@ export class ProductsService {
     return product.stock;
   }
 
-  updateStockLevel(id: number, amount: number): string {
-    return `decrease (update) the stock level of #${id} product with the following amount ${amount}`;
+  async updateStockLevel(id: number, updateStockDto: UpdateStockDto) {
+    const updateAmount = +updateStockDto.amount;
+    console.log(typeof updateAmount);
+    const product = await this.findOne(id);
+    if (product.stock < updateAmount) {
+      throw new ConflictException(
+        'There is not enough stock for this product.',
+      );
+    }
+
+    product.stock -= updateAmount;
+    await this.entityManager.save(product);
   }
 }

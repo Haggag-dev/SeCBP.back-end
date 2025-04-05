@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Put } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { UpdateProductDto } from './dto/update-stock.dto';
+import { UpdateStockDto } from './dto/update-stock.dto';
 import { Product } from './entities/product.entity';
 
 @Controller('products')
@@ -18,16 +18,15 @@ export class ProductsController {
   }
 
   @Get(':id/stock')
-  findStockLevel(@Param('id') id: string): Promise<number | undefined> {
+  findStockLevel(@Param('id') id: string): Promise<number> {
     return this.appService.findStockLevel(+id);
   }
 
   @Put(':id/stock')
   updateStockLevel(
     @Param('id') id: string,
-    @Body() UpdateProductDto: UpdateProductDto,
+    @Body() updateStockDto: UpdateStockDto,
   ) {
-    const stock = UpdateProductDto.stock;
-    return this.appService.updateStockLevel(+id, +stock);
+    return this.appService.updateStockLevel(+id, updateStockDto);
   }
 }

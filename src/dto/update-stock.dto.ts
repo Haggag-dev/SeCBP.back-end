@@ -1,7 +1,7 @@
 import { IsInt, IsPositive } from 'class-validator';
 
-export class UpdateProductDto {
+export class UpdateStockDto {
   @IsInt()
   @IsPositive()
-  stock: number;
+  amount: number;
 }

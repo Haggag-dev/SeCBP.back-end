@@ -6,15 +6,16 @@ import { Product } from './entities/product.entity';
 @Injectable()
 export class ProductsService {
   constructor(
-    @InjectRepository(Product) private readonly productsRepository: Repository<Product>,
+    @InjectRepository(Product)
+    private readonly productsRepository: Repository<Product>,
   ) {}
 
   async findAll(): Promise<Product[]> {
     return this.productsRepository.find();
   }
 
-  findOne(id: number): string {
-    return `Return product with id ${id}`;
+  async findOne(id: number): Promise<Product | null> {
+    return this.productsRepository.findOneBy({ id });
   }
 
   findStockLevel(id: number): string {

@@ -13,7 +13,7 @@ export class ProductsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): string {
+  findOne(@Param('id') id: string): Promise<Product | null> {
     return this.appService.findOne(+id);
   }
 

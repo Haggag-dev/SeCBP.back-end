@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
@@ -14,12 +14,18 @@ export class ProductsService {
     return this.productsRepository.find();
   }
 
-  async findOne(id: number): Promise<Product | null> {
-    return this.productsRepository.findOneBy({ id });
+  async findOne(id: number): Promise<Product> {
+    const product = await this.productsRepository.findOneBy({ id });
+
+    if (!product) throw new NotFoundException(`Product with id ${id}`);
+
+    return product;
   }
 
-  findStockLevel(id: number): string {
-    return `Return stock level of #${id} product`;
+  async findStockLevel(id: number): Promise<number> {
+    const product = await this.findOne(id);
+
+    return product.stock;
   }
 
   updateStockLevel(id: number, amount: number): string {

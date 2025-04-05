@@ -13,12 +13,12 @@ export class ProductsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Product | null> {
+  findOne(@Param('id') id: string): Promise<Product> {
     return this.appService.findOne(+id);
   }
 
   @Get(':id/stock')
-  findStockLevel(@Param('id') id: string) {
+  findStockLevel(@Param('id') id: string): Promise<number | undefined> {
     return this.appService.findStockLevel(+id);
   }
 

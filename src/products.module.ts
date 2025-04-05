@@ -3,6 +3,7 @@ import { ProductsController } from './products.controller';
 import { ProductsService } from './products.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { Product } from './entities/product.entity';
 
 @Module({
   imports: [
@@ -10,6 +11,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       envFilePath: '.env.local',
       isGlobal: true,
     }),
+
     TypeOrmModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
@@ -21,8 +23,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         autoLoadEntities: true,
         synchronize: configService.getOrThrow('PG_SYNCHRONIZE'),
       }),
+
       inject: [ConfigService],
     }),
+
+    TypeOrmModule.forFeature([Product]),
   ],
   controllers: [ProductsController],
   providers: [ProductsService],

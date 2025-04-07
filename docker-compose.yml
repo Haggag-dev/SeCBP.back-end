@@ -1,0 +1,31 @@
+services:
+  products-db:
+    image: postgres:17.4
+    ports:
+      - 5432:5432
+    volumes:
+      - products-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${PG_USERNAME}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_NAME}
+
+  products-ms:
+    image: products-microservice:1.0
+    ports:
+      - 3000:3000
+    environment:
+      # Database
+      - PG_HOST=${PG_HOST}
+      - PG_PORT=${PG_PORT}
+      - PG_USERNAME=${PG_USERNAME}
+      - PG_PASSWORD=${PG_PASSWORD}
+      - PG_NAME=${PG_NAME}
+      - PG_SYNCHRONIZE=${PG_SYNCHRONIZE}
+        # Main
+      - PORT=${PORT}
+    depends_on:
+      - products-db
+
+volumes:
+  products-data:

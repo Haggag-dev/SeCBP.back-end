@@ -36,7 +36,7 @@ export class ProductsService {
 
   async updateStockLevel(id: number, updateStockDto: UpdateStockDto) {
     const updateAmount = +updateStockDto.amount;
-    console.log(typeof updateAmount);
+
     const product = await this.findOne(id);
     if (product.stock < updateAmount) {
       throw new ConflictException(

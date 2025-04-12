@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Put } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Put } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { UpdateStockDto } from './dto/update-stock.dto';
 import { Product } from './entities/product.entity';
@@ -23,6 +23,7 @@ export class ProductsController {
   }
 
   @Put(':id/stock')
+  @HttpCode(204)
   updateStockLevel(
     @Param('id') id: string,
     @Body() updateStockDto: UpdateStockDto,

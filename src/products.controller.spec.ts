@@ -62,10 +62,10 @@ describe('ProductsController', () => {
     describe('given a product id that exists', () => {
       const productId = '1';
 
-      it('should resolve by returning a number', async () => {
-        await expect(
-          productsController.findStockLevel(productId),
-        ).resolves.toEqual(mockProductsData[0].stock);
+      it('should resolve by returning an object (i.e., { stock: Promise<number> }', async () => {
+        expect(productsController.findStockLevel(productId)).resolves.toEqual({
+          stock: mockProductsData[0].stock,
+        });
       });
     });
   });

@@ -18,8 +18,10 @@ export class ProductsController {
   }
 
   @Get(':id/stock')
-  findStockLevel(@Param('id') id: string): Promise<number> {
-    return this.appService.findStockLevel(+id);
+  async findStockLevel(@Param('id') id: string): Promise<{ stock: number }> {
+    const stock = await this.appService.findStockLevel(+id);
+
+    return { stock };
   }
 
   @Put(':id/stock')

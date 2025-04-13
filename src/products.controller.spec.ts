@@ -1,64 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProductsController } from './products.controller';
 import { ProductsService } from './products.service';
-import { UpdateStockDto } from './dto/update-stock.dto';
-import { Product } from './entities/product.entity';
 import { NotFoundException } from '@nestjs/common';
+import mockProductsService from './mocks/productsLogic.mock';
+import mockProductsData from './mocks/productsData.mock';
 
 describe('ProductsController', () => {
   let productsController: ProductsController;
-
-  const mockProductsData = [
-    {
-      id: 1,
-      name: 'T-Shirt',
-      price: '19.99',
-      imageUrl:
-        'https://images.unsplash.com/photo-1649182785115-eb5bd1c4cd45?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      stock: 300,
-    },
-    {
-      id: 2,
-      name: 'Jeans',
-      price: '39.99',
-      imageUrl:
-        'https://images.unsplash.com/photo-1649182785115-eb5bd1c4cd45?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      stock: 300,
-    },
-    {
-      id: 3,
-      name: 'Sweater',
-      price: '29.99',
-      imageUrl:
-        'https://images.unsplash.com/photo-1649182785115-eb5bd1c4cd45?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      stock: 300,
-    },
-  ];
-
-  const mockProductsService = {
-    findAll: jest.fn().mockResolvedValue(mockProductsData),
-
-    findOne: jest.fn().mockImplementation((id: string) => {
-      const product = mockProductsData.find(
-        (mockProduct) => mockProduct.id === Number(id),
-      );
-
-      if (!product)
-        return Promise.reject(new NotFoundException(`Product with id ${id}`));
-
-      return Promise.resolve(product);
-    }),
-
-    findStockLevel: jest.fn().mockImplementation(async (id: string) => {
-      const product: Product = await mockProductsService.findOne(id);
-
-      return product.stock;
-    }),
-
-    updateStockLevel: jest.fn(
-      async (id: string, updateStockDto: UpdateStockDto) => undefined,
-    ),
-  };
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({

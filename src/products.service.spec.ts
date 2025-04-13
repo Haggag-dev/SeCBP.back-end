@@ -3,10 +3,12 @@ import { ProductsService } from './products.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { EntityManager } from 'typeorm';
+import mockProductsRepository from './mocks/productsLogic.mock';
+import mockProductsData from './mocks/productsData.mock';
 
 describe('ProductsService', () => {
   let productsService: ProductsService;
-  const mockProductsRepository = {};
+
   const mockEntityManager = {};
 
   beforeAll(async () => {
@@ -29,5 +31,13 @@ describe('ProductsService', () => {
 
   it('should be defined', () => {
     expect(productsService).toBeDefined();
+  });
+
+  describe('findAll', () => {
+    it('should return an array of products', async () => {
+      expect(mockProductsRepository.findAll()).resolves.toEqual(
+        mockProductsData,
+      );
+    });
   });
 });

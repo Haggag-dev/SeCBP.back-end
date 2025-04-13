@@ -2,8 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ProductsController } from './products.controller';
 import { ProductsService } from './products.service';
 import { NotFoundException } from '@nestjs/common';
-import mockProductsService from './mocks/productsLogic.mock';
-import mockProductsData from './mocks/productsData.mock';
+import mockProductsService from './__test__mocks/productsService.mock';
+import mockProductsData from './__test__mocks/productsData.mock';
 
 describe('ProductsController', () => {
   let productsController: ProductsController;

@@ -3,8 +3,8 @@ import { ProductsService } from './products.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { EntityManager } from 'typeorm';
-import mockProductsRepository from './mocks/productsLogic.mock';
-import mockProductsData from './mocks/productsData.mock';
+import mockProductsRepository from './__test__mocks/productsService.mock';
+import mockProductsData from './__test__mocks/productsData.mock';
 
 describe('ProductsService', () => {
   let productsService: ProductsService;

@@ -9,7 +9,7 @@ const mockProductsService = {
   }),
 
   findOne: jest.fn().mockImplementation(async (id: number) => {
-    const product = await mockProductsRepository.findOneBy(id);
+    const product = await mockProductsRepository.findOneBy({ id });
 
     if (!product)
       return Promise.reject(new NotFoundException(`Product with id ${id}`));
@@ -18,7 +18,7 @@ const mockProductsService = {
   }),
 
   findStockLevel: jest.fn().mockImplementation(async (id: number) => {
-    const product: Product = await mockProductsRepository.findOneBy(id);
+    const product: Product = await mockProductsService.findOne(id);
 
     return product.stock;
   }),

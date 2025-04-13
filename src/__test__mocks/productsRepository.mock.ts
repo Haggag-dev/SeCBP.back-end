@@ -1,15 +1,13 @@
 import mockProductsData from './productsData.mock';
 
 const mockProductsRepository = {
-  find: jest
-    .fn()
-    .mockImplementation(async () => Promise.resolve(mockProductsData)),
+  find: jest.fn().mockResolvedValue(mockProductsData),
 
   findOneBy: jest
     .fn()
-    .mockImplementation(async (id: number) =>
+    .mockImplementation((criteria: { id: number }) =>
       Promise.resolve(
-        mockProductsData.find((mockProduct) => mockProduct.id === id),
+        mockProductsData.find((mockProduct) => mockProduct.id === criteria.id),
       ),
     ),
 };

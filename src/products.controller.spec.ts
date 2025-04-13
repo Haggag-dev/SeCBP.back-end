@@ -130,7 +130,5 @@ describe('ProductsController', () => {
         productsController.updateStockLevel(productId, { amount: 1 }),
       ).resolves.toBeUndefined();
     });
-
-    
   });
 });

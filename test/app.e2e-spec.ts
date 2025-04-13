@@ -16,10 +16,31 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  it('/products (GET)', () => {
     return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+      .get('/products')
+      .expect('Content-Type', /json/)
+      .expect(200);
+  });
+
+  it('/products/:id (GET)', () => {
+    return request(app.getHttpServer())
+      .get('/products/1')
+      .expect('Content-Type', /json/)
+      .expect(200);
+  });
+
+  it('/products/:id/stock (GET)', () => {
+    return request(app.getHttpServer())
+      .get('/products/1/stock')
+      .expect('Content-Type', /json/)
+      .expect(200);
+  });
+
+  it('/products/:id/stock (PUT)', () => {
+    return request(app.getHttpServer())
+      .put('/products/1/stock')
+      .send({ amount: 1 })
+      .expect(204);
   });
 });

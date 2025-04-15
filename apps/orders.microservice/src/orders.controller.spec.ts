@@ -1,22 +1,24 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { OrdersController } from './orders.controller';
 import { OrdersService } from './orders.service';
+import mockOrdersService from './__test__mocks/mockOrdersService';
 
 describe('OrdersController', () => {
-  let ordersMicroserviceController: OrdersController;
+  let ordersController: OrdersController;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [OrdersController],
       providers: [OrdersService],
-    }).compile();
+    })
+      .overrideProvider(OrdersService)
+      .useValue(mockOrdersService)
+      .compile();
 
-    ordersMicroserviceController = app.get<OrdersController>(OrdersController);
+    ordersController = app.get<OrdersController>(OrdersController);
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(ordersMicroserviceController.getHello()).toBe('Hello World!');
-    });
+  it('should be defined', () => {
+    expect(ordersController).toBeDefined();
   });
 });

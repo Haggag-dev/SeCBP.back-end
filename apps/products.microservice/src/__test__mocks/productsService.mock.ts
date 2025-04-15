@@ -1,6 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
-import { UpdateStockDto } from 'src/dto/update-stock.dto';
-import { Product } from 'src/entities/product.entity';
+import { UpdateStockDto } from '../dto/update-stock.dto';
+import { Product } from '../entities/product.entity';
 import mockProductsRepository from './productsRepository.mock';
 
 const mockProductsService = {

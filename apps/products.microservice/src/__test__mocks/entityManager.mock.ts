@@ -1,4 +1,4 @@
-import { Product } from 'src/entities/product.entity';
+import { Product } from '../entities/product.entity';
 
 const mockEntityManager = {
   save: jest.fn().mockImplementation((product: Product) => product),

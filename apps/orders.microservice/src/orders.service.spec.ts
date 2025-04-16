@@ -93,14 +93,16 @@ describe('OrdersService', () => {
   });
 
   describe('create', () => {
-    it('should return an Order object, given a correct CreateUserDto', () => {
-      expect(ordersService.create(mockCreateOrderDto)).resolves.toBeInstanceOf(
-        Order,
-      );
+    describe('given a correct CreateOrderDto', () => {
+      it('should return an Order object', () => {
+        expect(
+          ordersService.create(mockCreateOrderDto),
+        ).resolves.toBeInstanceOf(Order);
 
-      expect(mockOrdersRepository.create).toHaveBeenCalledWith(
-        mockCreateOrderDto,
-      );
+        expect(mockOrdersRepository.create).toHaveBeenCalledWith(
+          mockCreateOrderDto,
+        );
+      });
     });
   });
 });

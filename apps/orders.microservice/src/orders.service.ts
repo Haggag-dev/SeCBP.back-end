@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Order } from './entities/orders.entity';
+import { Order, OrderStatus } from './entities/orders.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
 
@@ -27,7 +27,10 @@ export class OrdersService {
   }
 
   async create(createOrderDto: CreateOrderDto): Promise<Order> {
-    const order = this.ordersRepository.create(createOrderDto);
+    const order = this.ordersRepository.create({
+      ...createOrderDto,
+      status: OrderStatus.PROCESSING,
+    });
     return this.ordersRepository.save(order);
   }
 }

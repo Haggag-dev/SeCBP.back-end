@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { OrdersModule } from '../src/orders.module';
+import mockCreateOrderDto from '../src/__test__mocks/mockCreateOrderDto';
 
 describe('OrdersController (e2e)', () => {
   let app: INestApplication;
@@ -15,10 +16,25 @@ describe('OrdersController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  it('/users/:user_id/orders (GET)', () => {
     return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+      .get('/users/1/orders')
+      .expect('Content-Type', /json/)
+      .expect(200);
+  });
+
+  it('/orders/:order_id (GET)', () => {
+    return request(app.getHttpServer())
+      .get('/orders/1')
+      .expect('Content-Type', /json/)
+      .expect(200);
+  });
+
+  it('/order (POST)', () => {
+    return request(app.getHttpServer())
+      .post('/order')
+      .send(mockCreateOrderDto)
+      .expect('Content-Type', /json/)
+      .expect(202);
   });
 });

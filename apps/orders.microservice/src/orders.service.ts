@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { EntityManager, Repository } from 'typeorm';
 import { Order } from './entities/orders.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -15,7 +15,14 @@ export class OrdersService {
     return this.ordersRepository.findBy({ user_id });
   }
 
-  getHello(): string {
-    return 'Hello World!';
+  async findOne(order_id: number): Promise<Order> {
+    const order: Order | null = await this.ordersRepository.findOneBy({
+      order_id,
+    });
+
+    if (!order)
+      throw new NotFoundException(`Order with id ${order_id} does not exist`);
+
+    return order;
   }
 }

@@ -23,15 +23,20 @@ const mockOrdersRepository = {
 
   create: jest
     .fn()
-    .mockImplementation((createUserDto: CreateOrderDto): Order => {
+    .mockImplementation((createOrderDto: CreateOrderDto): Order => {
       const order_id = mockOrdersData[mockOrdersData.length - 1].order_id++;
       const order = new Order();
 
-      Object.assign(order, createUserDto, {
-        order_id,
-        status: OrderStatus.PROCESSING,
-        created_at: new Date(),
-      });
+      Object.assign(
+        order,
+        {
+          ...createOrderDto,
+          status: OrderStatus.PROCESSING,
+        },
+        {
+          order_id,
+        },
+      );
 
       return order;
     }),

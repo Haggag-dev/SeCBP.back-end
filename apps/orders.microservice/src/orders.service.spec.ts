@@ -7,6 +7,7 @@ import mockEntityManager from './__test__mocks/mockEntityManager';
 import mockOrdersRepository from './__test__mocks/mockOrdersRepository';
 import mockOrdersData from './__test__mocks/mockOrdersData';
 import { NotFoundException } from '@nestjs/common';
+import mockCreateOrderDto from './__test__mocks/mockCreateOrderDto';
 
 describe('OrdersService', () => {
   let ordersService: OrdersService;
@@ -18,10 +19,6 @@ describe('OrdersService', () => {
         {
           provide: getRepositoryToken(Order),
           useValue: mockOrdersRepository,
-        },
-        {
-          provide: EntityManager,
-          useValue: mockEntityManager,
         },
       ],
     }).compile();
@@ -92,6 +89,18 @@ describe('OrdersService', () => {
           order_id,
         });
       });
+    });
+  });
+
+  describe('create', () => {
+    it('should return an Order object, given a correct CreateUserDto', () => {
+      expect(ordersService.create(mockCreateOrderDto)).resolves.toBeInstanceOf(
+        Order,
+      );
+
+      expect(mockOrdersRepository.create).toHaveBeenCalledWith(
+        mockCreateOrderDto,
+      );
     });
   });
 });

@@ -1,14 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { EntityManager, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Order } from './entities/orders.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CreateOrderDto } from './dto/create-order.dto';
 
 @Injectable()
 export class OrdersService {
   constructor(
     @InjectRepository(Order)
     private readonly ordersRepository: Repository<Order>,
-    private readonly entityManager: EntityManager,
   ) {}
 
   async findAll(user_id: number): Promise<Order[]> {
@@ -24,5 +24,10 @@ export class OrdersService {
       throw new NotFoundException(`Order with id ${order_id} does not exist`);
 
     return order;
+  }
+
+  async create(createOrderDto: CreateOrderDto): Promise<Order> {
+    const order = this.ordersRepository.create(createOrderDto);
+    return this.ordersRepository.save(order);
   }
 }

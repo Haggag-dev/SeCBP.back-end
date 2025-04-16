@@ -1,4 +1,5 @@
-import { Order } from '../entities/orders.entity';
+import { CreateOrderDto } from '../dto/create-order.dto';
+import { Order, OrderStatus } from '../entities/orders.entity';
 import mockOrdersData from './mockOrdersData';
 
 const mockOrdersRepository = {
@@ -19,6 +20,23 @@ const mockOrdersRepository = {
         (order) => order.order_id === criteria.order_id,
       );
     }),
+
+  create: jest
+    .fn()
+    .mockImplementation((createUserDto: CreateOrderDto): Order => {
+      const order_id = mockOrdersData[mockOrdersData.length - 1].order_id++;
+      const order = new Order();
+
+      Object.assign(order, createUserDto, {
+        order_id,
+        status: OrderStatus.PROCESSING,
+        created_at: new Date(),
+      });
+
+      return order;
+    }),
+
+  save: jest.fn().mockImplementation((order: Order): Order => order),
 };
 
 export default mockOrdersRepository;

@@ -27,6 +27,12 @@ describe('ProductsService', () => {
           provide: EntityManager,
           useValue: mockEntityManager,
         },
+        {
+          provide: 'CONFIRM_STOCK_RESERVATION',
+          useValue: {
+            emit: jest.fn(),
+          },
+        },
       ],
     }).compile();
 

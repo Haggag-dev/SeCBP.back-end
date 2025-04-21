@@ -2,8 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { OrdersService } from './orders.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Order } from './entities/orders.entity';
-import { EntityManager } from 'typeorm';
-import mockEntityManager from './__test__mocks/mockEntityManager';
 import mockOrdersRepository from './__test__mocks/mockOrdersRepository';
 import mockOrdersData from './__test__mocks/mockOrdersData';
 import { NotFoundException } from '@nestjs/common';
@@ -19,6 +17,12 @@ describe('OrdersService', () => {
         {
           provide: getRepositoryToken(Order),
           useValue: mockOrdersRepository,
+        },
+        {
+          provide: 'RESERVE_STOCK',
+          useValue: {
+            emit: jest.fn(),
+          },
         },
       ],
     }).compile();
@@ -93,9 +97,17 @@ describe('OrdersService', () => {
   });
 
   describe('create', () => {
+    beforeEach(() => {
+      jest
+        .spyOn(ordersService['client'], 'emit')
+        .mockReturnValue({ subscribe: jest.fn() } as any);
+    });
+
     describe('given a correct CreateOrderDto', () => {
       it('should return an Promise<Order> object', () => {
-        expect(ordersService.create(mockCreateOrderDto)).toBeInstanceOf(Promise<Order>);
+        expect(ordersService.create(mockCreateOrderDto)).toBeInstanceOf(
+          Promise<Order>,
+        );
       });
     });
   });

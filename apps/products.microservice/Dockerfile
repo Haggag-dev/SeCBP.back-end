@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm i
 
-COPY . .
+COPY apps/products.microservice .
 
 EXPOSE 3000
 

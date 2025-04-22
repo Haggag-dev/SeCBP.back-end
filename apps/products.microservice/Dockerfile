@@ -5,6 +5,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm i
 
+COPY tsconfig.json ./
+
 COPY apps/products.microservice .
 
 EXPOSE 3000

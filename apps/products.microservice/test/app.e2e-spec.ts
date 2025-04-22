@@ -40,7 +40,12 @@ describe('ProductsController (e2e)', () => {
   it('/products/:id/stock (PUT)', () => {
     return request(app.getHttpServer())
       .put('/products/1/stock')
-      .send({ amount: 1 })
+      .send({
+        order_id: 1,
+        user_id: 1,
+        product_id: 1,
+        stock: 10,
+      })
       .expect(204);
   });
 });

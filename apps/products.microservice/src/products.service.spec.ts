@@ -84,16 +84,23 @@ describe('ProductsService', () => {
   });
 
   describe('updateStockLevel', () => {
-    const sufficientUpdateAmount: UpdateStockDto = { amount: 10 };
-    const insufficientUpdateAmount: UpdateStockDto = { amount: 500 };
+    const sufficientUpdateAmount: UpdateStockDto = {
+      order_id: 1,
+      user_id: 1,
+      product_id: 1,
+      stock: 10,
+    };
+    const insufficientUpdateAmount: UpdateStockDto = {
+      order_id: 1,
+      user_id: 1,
+      product_id: 1,
+      stock: 500,
+    };
 
     describe('given that there is sufficient stock amount', () => {
       it('should return undefined', () => {
         expect(
-          productsService.updateStockLevel(
-            correctProductId,
-            sufficientUpdateAmount,
-          ),
+          productsService.updateStockLevel(sufficientUpdateAmount),
         ).resolves.toBe(undefined);
       });
     });
@@ -101,19 +108,13 @@ describe('ProductsService', () => {
     describe('given that there is insufficient stock amount', () => {
       it('should throw a ConflictException', () => {
         expect(
-          productsService.updateStockLevel(
-            correctProductId,
-            insufficientUpdateAmount,
-          ),
+          productsService.updateStockLevel(insufficientUpdateAmount),
         ).rejects.toThrow(ConflictException);
       });
 
       it('should throw a ConflictException with the correct message', () => {
         expect(
-          productsService.updateStockLevel(
-            correctProductId,
-            insufficientUpdateAmount,
-          ),
+          productsService.updateStockLevel(insufficientUpdateAmount),
         ).rejects.toThrow('There is not enough stock for this product.');
       });
     });

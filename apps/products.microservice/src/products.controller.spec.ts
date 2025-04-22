@@ -75,7 +75,12 @@ describe('ProductsController', () => {
 
     it('should resolve without returning any value', async () => {
       await expect(
-        productsController.updateStockLevel(productId, { amount: 1 }),
+        productsController.updateStockLevel({
+          order_id: 1,
+          user_id: 1,
+          product_id: 1,
+          stock: 10,
+        }),
       ).resolves.toBeUndefined();
     });
   });

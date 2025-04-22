@@ -52,34 +52,4 @@ export class ProductsService {
     product.stock -= updateAmount;
     await this.entityManager.save(product);
   }
-
-  @EventPattern('reserve_stock')
-  async handleStockReservation(
-    @Payload()
-    order: {
-      order_id: number;
-      user_id: number;
-      product_id: number;
-      stock: number;
-    },
-  ) {
-    try {
-      await this.updateStockLevel(order.product_id, { amount: order.stock });
-      await firstValueFrom(
-        this.client.emit('stock_reserved', {
-          ...order,
-          status: 'confirmed',
-          message: 'success',
-        }),
-      );
-    } catch (err) {
-      await firstValueFrom(
-        this.client.emit('stock_reserved', {
-          ...order,
-          status: 'rejected',
-          message: err.message,
-        }),
-      );
-    }
-  }
 }

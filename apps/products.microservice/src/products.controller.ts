@@ -2,6 +2,7 @@ import { Body, Controller, Get, HttpCode, Param, Put } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { UpdateStockDto } from './dto/update-stock.dto';
 import { Product } from './entities/product.entity';
+import { EventPattern, Payload } from '@nestjs/microservices';
 
 @Controller('products')
 export class ProductsController {
@@ -31,5 +32,21 @@ export class ProductsController {
     @Body() updateStockDto: UpdateStockDto,
   ) {
     return this.appService.updateStockLevel(+id, updateStockDto);
+  }
+
+  @EventPattern('reserve_stock')
+  async handleStockReservation(
+    @Payload()
+    order: {
+      order_id: number;
+      user_id: number;
+      product_id: number;
+      stock: number;
+    },
+  ) {
+    console.log(
+      '[Products Microservice] Message received from orders microservice:',
+      order,
+    );
   }
 }

@@ -54,7 +54,9 @@ export class OrdersService {
 
     const savedOrder = await this.ordersRepository.save(order);
 
-    console.log('Order saved:', savedOrder);
+    console.log(
+      `Order saved with status ${order.status}. The saved order: ${savedOrder}`,
+    );
   }
 
   private async sendStockReservationMessage(order: Order) {

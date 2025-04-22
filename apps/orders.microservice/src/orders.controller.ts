@@ -1,6 +1,6 @@
 import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
 import { OrdersService } from './orders.service';
-import { Order, OrderStatus } from './entities/orders.entity';
+import { Order } from './entities/orders.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { EventPattern, Payload } from '@nestjs/microservices';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -29,5 +29,11 @@ export class OrdersController {
   async handleStockConfirmation(
     @Payload()
     updateOrderDto: UpdateOrderDto,
-  ) {}
+  ) {
+    console.log(
+      '[Orders Microservice] Message Received from products microservice:',
+      updateOrderDto,
+    );
+    this.ordersService.update(updateOrderDto);
+  }
 }

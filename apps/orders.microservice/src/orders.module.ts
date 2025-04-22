@@ -4,6 +4,7 @@ import { OrdersService } from './orders.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Order } from './entities/orders.entity';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
@@ -28,6 +29,24 @@ import { Order } from './entities/orders.entity';
     }),
 
     TypeOrmModule.forFeature([Order]),
+
+    ClientsModule.registerAsync([
+      {
+        imports: [ConfigModule],
+        name: 'RESERVE_STOCK',
+        useFactory: async (configService: ConfigService) => ({
+          transport: Transport.RMQ,
+          options: {
+            urls: [
+              configService.get<string>('RMQ_URL') || 'amqp://localhost:5672',
+            ],
+            queue: configService.get<string>('STOCK_RESERVATION_QUEUE'),
+            queueOptions: { durable: true },
+          },
+        }),
+        inject: [ConfigService],
+      },
+    ]),
   ],
   controllers: [OrdersController],
   providers: [OrdersService],

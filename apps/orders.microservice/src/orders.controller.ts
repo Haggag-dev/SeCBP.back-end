@@ -1,7 +1,9 @@
 import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
 import { OrdersService } from './orders.service';
-import { Order } from './entities/orders.entity';
+import { Order, OrderStatus } from './entities/orders.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { EventPattern, Payload } from '@nestjs/microservices';
+import { UpdateOrderDto } from './dto/update-order.dto';
 
 @Controller()
 export class OrdersController {
@@ -22,4 +24,10 @@ export class OrdersController {
   create(@Body() createOrderDto: CreateOrderDto): Promise<Order> {
     return this.ordersService.create(createOrderDto);
   }
+
+  @EventPattern('stock_reserved')
+  async handleStockConfirmation(
+    @Payload()
+    updateOrderDto: UpdateOrderDto,
+  ) {}
 }

@@ -16,16 +16,16 @@ describe('OrdersController (e2e)', () => {
     await app.init();
   });
 
-  it('/users/:user_id/orders (GET)', () => {
+  it('/users/:user_id (GET)', () => {
     return request(app.getHttpServer())
-      .get('/users/1/orders')
+      .get('/users/1')
       .expect('Content-Type', /json/)
       .expect(200);
   });
 
-  it('/orders/:order_id (GET)', () => {
+  it('/order/:order_id (GET)', () => {
     return request(app.getHttpServer())
-      .get('/orders/1')
+      .get('/order/1')
       .expect('Content-Type', /json/)
       .expect(200);
   });

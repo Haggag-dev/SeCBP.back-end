@@ -9,12 +9,12 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
-  @Get('/users/:user_id/orders')
+  @Get('/users/:user_id')
   findAll(@Param('user_id') user_id: string): Promise<Order[]> {
     return this.ordersService.findAll(+user_id);
   }
 
-  @Get('/orders/:order_id')
+  @Get('/order/:order_id')
   findOne(@Param('order_id') order_id: string): Promise<Order> {
     return this.ordersService.findOne(+order_id);
   }

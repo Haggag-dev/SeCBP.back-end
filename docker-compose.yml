@@ -9,7 +9,7 @@ services:
       - products-data:/var/lib/postgresql/data
 
   products-ms:
-    image: products-microservice:1.3
+    image: products-microservice:1.4
     ports:
       - 3000:3000
     env_file:
@@ -28,7 +28,7 @@ services:
       - orders-data:/var/lib/postgresql/data
 
   orders-ms:
-    image: orders-microservice:1.1
+    image: orders-microservice:1.2
     env_file:
       - ./apps/orders.microservice/.env.local
     ports:

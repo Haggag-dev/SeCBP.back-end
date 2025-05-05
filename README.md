@@ -4,7 +4,7 @@ This monorepo contains the backend of my Bachelor project, which investigates ho
 
 ## System Architecture
 
-[System Architecture Diagram](sys_architecture.png)
+<img src="sys_architecture.png" alt="System Architecture Diagram" width="800" />
 
 ### Frontend
 

@@ -1,6 +1,6 @@
 # Bachelor/Graduation Project
 
-This monorepo contains the backend of my Bachelor project, which investigates how integrating SPA-based micro-frontends with microservices contributes to the scalability of web applications. For benchmarking purposes, the project compares the scalability of a monolithic SPA frontend with the microfrontends architecture. The development phase of the application has concluded, and quantitative and qualitative assessments are currently underway. The application details, including [system architecture](#system-architecture), [utilized technologies](#technologies), [benchmarking setup](#benchmarking-setup), and [instructions on how to run the project](#instruction-for-running-the-back-end), are outlined in the following sections of this `README.md`.
+This monorepo contains the backend of my Bachelor project, which investigates how integrating SPA-based micro-frontends with microservices contributes to the scalability of web applications. For benchmarking purposes, the project compares the scalability of a monolithic SPA frontend with the microfrontends architecture. The development phase of the application has concluded, and quantitative and qualitative assessments are currently underway. The application details, including [system architecture](#system-architecture), [utilized technologies](#technologies), [benchmarking setup](#benchmarking-setup), and [instructions on how to run the project](#instructions-for-running-the-back-end), are outlined in the following sections of this `README.md`.
 
 ## System Architecture
 

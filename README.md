@@ -1,10 +1,12 @@
 # Bachelor/Graduation Project
 
-This monorepo contains the backend of my Bachelor project, which investigates how integrating SPA-based micro-frontends with microservices contributes to the scalability of web applications. For benchmarking purposes, the project compares the scalability of a monolithic SPA frontend with the microfrontends architecture. The development phase of the application has concluded, and quantitative and qualitative assessments are currently underway. The application details, including [system architecture](#system-architecture), [utilized technologies](#technologies), [benchmarking setup](), and [instructions on how to run the project](#instruction-for-running-the-back-end), are outlined in the following sections of this `README.md`.
+This monorepo contains the backend of my Bachelor project, which investigates how integrating SPA-based micro-frontends with microservices contributes to the scalability of web applications. For benchmarking purposes, the project compares the scalability of a monolithic SPA frontend with the microfrontends architecture. The development phase of the application has concluded, and quantitative and qualitative assessments are currently underway. The application details, including [system architecture](#system-architecture), [utilized technologies](#technologies), [benchmarking setup](#benchmarking-setup), and [instructions on how to run the project](#instructions-for-running-the-back-end), are outlined in the following sections of this `README.md`.
 
 ## System Architecture
 
-[System Architecture Diagram](sys_architecture.png)
+<p align="center">
+    <img src="sys_architecture.png" alt="System Architecture Diagram" width="1000" />
+</p>
 
 ### Frontend
 
@@ -52,7 +54,7 @@ The Orders microservice exposes `REST API` endpoints:
 
 When a user clicks the "Order Now" button, a request is sent to the Orders service via the `POST /orders/:order` endpoint. The Orders service then creates a new order with its initial status set to `processing`, responds to the client with a `202 Accepted` status if successful, and emits a `reserve_stock` event to check if there is sufficient stock for the requested product.
 
-The Orders service is also subscribed to a `stock_reservation` event, which notifies whether the requested product has enough stock. After placing the order, the frontend can retrieve the latest order information using the `GET /users/:userId` endpoint.
+The Orders service is also subscribed to a `stock_reserved` event, which notifies whether the requested product has enough stock. After placing the order, the frontend can retrieve the latest order information using the `GET /users/:userId` endpoint.
 
 #### Products Microservice
 
@@ -93,14 +95,14 @@ All web servers, backend services, the message broker, and the API gateway were 
 
 ### Frontend
 
-- __React__: All frontend implementations—both the micro-frontends and the monolithic SPA—were developed using React for consistency in scalability benchmarking.
+- __React__: All frontend implementations, both the micro-frontends and the monolithic SPA, were developed using React for consistency in scalability benchmarking.
 - __Module Federation__: Used exclusively in the micro-frontend architecture to enable dynamic, runtime integration of independently deployed frontend modules.
 - __Nginx__: Used as the web server to serve static files for each frontend application.
 
 ### Backend
 
 - __NestJS__: Both microservices were developed using NestJS, a backend framework that offers a modular architecture and built-in support for features like dependency injection and integration with message brokers.
-- __PostgreSQL__: Each microservice connects to its own PostgreSQL database. PostgreSQL was selected due to its reliability, ACID compliance, and robust support for relational data modeling.
+- __PostgreSQL__: Each microservice connects to its own PostgreSQL database. PostgreSQL was selected due to its reliability and ACID compliance.
 - __RabbitMQ__:  Used as the message broker to facilitate asynchronous communication between services. RabbitMQ was chosen for its maturity, ease of integration with NestJS, and support for publish/subscribe messaging patterns.
 
 ### API Gateway
@@ -122,7 +124,7 @@ This system is a full-stack prototype designed primarily to assess the scalabili
 - __Focus on UI functionality, not design__ – visual styling and UX polish were not priorities.
 - __No CDNs for serving static files__ – static files are served locally using dedicated Nginx web servers for each frontend.
 
-## Instruction for Running the Back-end
+## Instructions for Running the Back-end
 
 If you already have the backend up and running, you can explore either the [monolithic](https://github.com/Haggag-dev/SeCBP.monolithic-fe) or the [micro-frontends](https://github.com/Haggag-dev/SeCBP.host-mfe) implementation.
 
@@ -131,7 +133,7 @@ If you already have the backend up and running, you can explore either the [mono
 - [Install docker desktop](https://docs.docker.com/desktop/).
 - (Optional) Install [TablePlus](https://tableplus.com/) to manually insert product and order data into the database for the frontend to render.
 
-> ![Warning] Ensure Docker is running before proceeding with the next steps.
+*⚠ __Imporant__: Ensure Docker is running before proceeding with the next steps.*
 
 ### Docker Images
 

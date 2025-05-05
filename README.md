@@ -4,7 +4,7 @@ This monorepo contains the backend of my Bachelor project, which investigates ho
 
 ## System Architecture
 
-![System Architecture Diagram](System Architecture.png)
+[System Architecture Diagram](System_Architecture.png)
 
 ### Frontend
 
@@ -41,14 +41,14 @@ The Orders microservice exposes `REST API` endpoints:
 2. `GET /order/:orderId`: Retrieves a specific order by its ID.
 3. `POST /orders/:order`: Creates a new order. The request body must include the following JSON payload:
 
-    ```json
-        {
-            "user_id": number,
-            "product_id": number,
-            "product_name": string,
-            "product_price": number
-        }
-    ```
+```json
+{
+    "user_id": number,
+    "product_id": number,
+    "product_name": string,
+    "product_price": number
+}
+```
 
 When a user clicks the "Order Now" button, a request is sent to the Orders service via the `POST /orders/:order` endpoint. The Orders service then creates a new order with its initial status set to `processing`, responds to the client with a `202 Accepted` status if successful, and emits a `reserve_stock` event to check if there is sufficient stock for the requested product.
 
@@ -66,14 +66,14 @@ The Products microservice exposes the following `REST API` endpoints:
 The Products service is subscribed to the `reserve_stock` event. When it receives a stock reservation request, it processes the following payload:
 
 
-    ```json
-        {
-            "order_id": number,
-            "user_id": number,
-            "product_id": number,
-            "stock": number
-        }
-    ```
+```json
+{
+    "order_id": number,
+    "user_id": number,
+    "product_id": number,
+    "stock": number
+}
+```
 
 After verifying whether sufficient stock is available, the service emits a `stock_reserved` event to indicate whether the stock reservation was successful or rejected.
 

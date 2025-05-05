@@ -124,7 +124,7 @@ This system is a full-stack prototype designed primarily to assess the scalabili
 - __Focus on UI functionality, not design__ – visual styling and UX polish were not priorities.
 - __No CDNs for serving static files__ – static files are served locally using dedicated Nginx web servers for each frontend.
 
-## Instruction for Running the Back-end
+## Instructions for Running the Back-end
 
 If you already have the backend up and running, you can explore either the [monolithic](https://github.com/Haggag-dev/SeCBP.monolithic-fe) or the [micro-frontends](https://github.com/Haggag-dev/SeCBP.host-mfe) implementation.
 
